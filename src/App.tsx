@@ -13,7 +13,6 @@ const App = () => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [revealed, setRevealed] = useState([]);
-  const [interactionsEnabled, setInteractionsEnabled] = useState(true);
   const [completed, setCompleted] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [inputInvalid, setInputInvalid] = useState(false);
@@ -37,17 +36,8 @@ const App = () => {
         return;
       }
 
-      setInteractionsEnabled(false);
       const timer = setTimeout(() => {
-        // revealed.forEach((card) => {
-        //   card.flipState = 'hidden';
-        // });
-
-        revealed[0].flipState = 'hidden';
-        revealed[1].flipState = 'hidden';
-
-        setRevealed([]);
-        setInteractionsEnabled(true);
+        hideBoth();
       }, delayMs);
       return () => clearTimeout(timer);
     }
@@ -86,13 +76,25 @@ const App = () => {
     // setQuery('');
   };
 
+  const hideBoth = () => {
+    revealed[0].flipState = 'hidden';
+    revealed[1].flipState = 'hidden';
+    setRevealed([]);
+  };
+
   const handleCardClick = (card) => {
-    if (interactionsEnabled === false || card.flipState === 'revealed') {
+    if (card.flipState === 'revealed') {
       return;
     }
 
     card.flipState = 'revealed';
-    setRevealed([...revealed, card]);
+
+    if (revealed.length === 2) {
+      hideBoth();
+      setRevealed([card]);
+    } else {
+      setRevealed([...revealed, card]);
+    }
   };
 
   return (
