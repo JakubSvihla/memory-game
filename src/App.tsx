@@ -52,9 +52,16 @@ const App = () => {
       setInputInvalid(false);
     }
 
-    const newImages = await fetchImages(query, difficultyLevel, setLoading);
+    const newImages = await fetchImages(query, difficultyLevel + 1, setLoading);
     // const newImages = mockData;
     assignCustomProperty(newImages);
+
+    const rogueCard = newImages.pop(); // make sure it's not the same as the bg image
+    rogueCard.uniqueKey = `${rogueCard.id}-1`;
+    debugger;
+    // maybe instead of having haveRogueCard, from certain number of images we can just chuck one more in
+    // maybe rogueCard from the beginning
+    // with rogueCard, how do we conclude the game?
 
     const imagesDoubled = [
       ...newImages.map((image) => ({
@@ -68,6 +75,9 @@ const App = () => {
         uniqueKey: `${image.id}-2`,
       })),
     ];
+
+    imagesDoubled.push(rogueCard);
+
     shuffle(imagesDoubled);
 
     setCompleted(false);
