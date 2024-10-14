@@ -21,27 +21,19 @@ const App = () => {
 
   useEffect(() => {
     if (revealed.length === 2) {
-      const isMatch = revealed[0].id === revealed[1].id;
-      if (isMatch) {
+      function onTimeout() {
+        revealed[0].flipState = 'hidden';
+        revealed[1].flipState = 'hidden';
         setRevealed([]);
-        const allRevealed = images.every(
-          (image) => image.flipState === 'revealed'
-        );
-
-        if (allRevealed) {
-          setCompleted(true);
-          setDifficultyLevel((prev) => prev + 1);
-          setPlaying(false);
-        }
-        return;
       }
 
-      const timer = setTimeout(() => {
-        hideBoth();
-      }, delayMs);
-      return () => clearTimeout(timer);
+      const timeoutId = setTimeout(onTimeout, delayMs);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
     }
-  });
+  }, [revealed]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -52,13 +44,13 @@ const App = () => {
       setInputInvalid(false);
     }
 
-    const newImages = await fetchImages(query, difficultyLevel + 1, setLoading);
+    const newImages = await fetchImages(query, difficultyLevel, setLoading);
     // const newImages = mockData;
     assignCustomProperty(newImages);
 
-    const rogueCard = newImages.pop(); // make sure it's not the same as the bg image
-    rogueCard.uniqueKey = `${rogueCard.id}-1`;
-    debugger;
+    // const rogueCard = newImages.pop(); // make sure it's not the same as the bg image
+    // rogueCard.uniqueKey = `${rogueCard.id}-1`;
+    // debugger;
     // maybe instead of having haveRogueCard, from certain number of images we can just chuck one more in
     // maybe rogueCard from the beginning
     // with rogueCard, how do we conclude the game?
@@ -76,7 +68,7 @@ const App = () => {
       })),
     ];
 
-    imagesDoubled.push(rogueCard);
+    // imagesDoubled.push(rogueCard);
 
     shuffle(imagesDoubled);
 
@@ -86,24 +78,45 @@ const App = () => {
     // setQuery('');
   };
 
-  const hideBoth = () => {
-    revealed[0].flipState = 'hidden';
-    revealed[1].flipState = 'hidden';
-    setRevealed([]);
-  };
-
+  let timer;
   const handleCardClick = (card) => {
+    console.log(timer);
+    clearTimeout(timer);
     if (card.flipState === 'revealed') {
       return;
     }
 
-    card.flipState = 'revealed';
+    if (revealed.length === 0) {
+      card.flipState = 'revealed';
+      setRevealed([card]);
+    }
+
+    if (revealed.length === 1) {
+      card.flipState = 'revealed';
+
+      const isMatch = revealed[0].id === card.id;
+      if (isMatch) {
+        setRevealed([]);
+        const allRevealed = images.every(
+          (image) => image.flipState === 'revealed'
+        );
+
+        if (allRevealed) {
+          setCompleted(true);
+          setDifficultyLevel((prev) => prev + 1);
+          setPlaying(false);
+        }
+        return;
+      } else {
+        setRevealed([...revealed, card]);
+      }
+    }
 
     if (revealed.length === 2) {
-      hideBoth();
+      revealed[0].flipState = 'hidden';
+      revealed[1].flipState = 'hidden';
+      card.flipState = 'revealed';
       setRevealed([card]);
-    } else {
-      setRevealed([...revealed, card]);
     }
   };
 
