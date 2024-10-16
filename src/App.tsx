@@ -4,17 +4,13 @@ import { Button } from '@nextui-org/button';
 import { fetchImages } from './api/unsplash';
 import { assignCustomProperty, shuffle, doubleImages } from './utils';
 import mockData from './api/mock-data.json';
-
-import Timer from './components/Timer.tsx';
 import GameGrid from './components/GameGrid.tsx';
 
 const App = () => {
   const [images, setImages] = useState([]);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
-
   const [completed, setCompleted] = useState(false);
-
   const [playing, setPlaying] = useState(false);
   const [inputInvalid, setInputInvalid] = useState(false);
   const [difficultyLevel, setDifficultyLevel] = useState(2);
