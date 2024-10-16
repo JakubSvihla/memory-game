@@ -212,7 +212,4 @@ const App = () => {
 
 export default App;
 
-// will need to dynamically construct css grid class
-// based on how many images we have
-
 // 1rem = 16px
