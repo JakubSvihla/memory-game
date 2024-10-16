@@ -3,7 +3,7 @@ import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import { fetchImages } from './api/unsplash';
 import { assignCustomProperty, shuffle, doubleImages } from './utils';
-import mockData from './api/mock-data.json';
+// import mockData from './api/mock-data.json';
 import GameGrid from './components/GameGrid.tsx';
 
 const App = () => {
@@ -15,34 +15,14 @@ const App = () => {
   const [inputInvalid, setInputInvalid] = useState(false);
   const [difficultyLevel, setDifficultyLevel] = useState(2);
 
-  // rogue card
+  // rogue card:
   // fetching it - difficulty level + 1
+
+  // extract it
   // assign it uniqueKey
   // put it in the array after doubling
+
   // determining when to win
-
-  const setUpGame = (images) => {
-    assignCustomProperty(images, 'flipState', 'hidden');
-
-    const rogueCard = images.pop(); // make sure it's not the same as the bg image
-    rogueCard.uniqueKey = `${rogueCard.id}-1`;
-
-    const imagesDoubled = doubleImages(images);
-
-    imagesDoubled.push(rogueCard);
-
-    shuffle(imagesDoubled);
-
-    setCompleted(false);
-    setImages(imagesDoubled);
-    setPlaying(true);
-  };
-
-  const resetGame = () => {
-    setCompleted(true);
-    setDifficultyLevel((prev) => prev + 1);
-    setPlaying(false);
-  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -53,10 +33,33 @@ const App = () => {
       setInputInvalid(false);
     }
 
-    const newImages = await fetchImages(query, difficultyLevel + 1, setLoading);
+    const newImages = await fetchImages(query, difficultyLevel + 1, setLoading); // rc
     // const newImages = mockData;
 
     setUpGame(newImages);
+  };
+
+  const setUpGame = (images) => {
+    assignCustomProperty(images, 'flipState', 'hidden');
+
+    const rogueCard = images.pop(); // rc // make sure it's not the same as the bg image
+    rogueCard.uniqueKey = `${rogueCard.id}-1`; // rc
+
+    const imagesDoubled = doubleImages(images);
+
+    imagesDoubled.push(rogueCard); // rc
+
+    shuffle(imagesDoubled);
+
+    setCompleted(false);
+    setImages(imagesDoubled);
+    setPlaying(true);
+  };
+
+  const concludeGame = () => {
+    setCompleted(true);
+    setDifficultyLevel((prev) => prev + 1);
+    setPlaying(false);
   };
 
   return (
@@ -104,7 +107,7 @@ const App = () => {
       {loading && images.length ? (
         <p>Loading...</p>
       ) : (
-        <GameGrid images={images} resetGame={resetGame} />
+        <GameGrid images={images} concludeGame={concludeGame} />
       )}
     </div>
   );

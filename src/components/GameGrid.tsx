@@ -3,7 +3,7 @@ import { calculateGridClasses } from '../utils';
 import { delayMs } from '../config.js';
 import { useEffect, useState } from 'react';
 
-const GameGrid = ({ images, resetGame }) => {
+const GameGrid = ({ images, concludeGame }) => {
   const [revealed, setRevealed] = useState([]);
   const [paired, setPaired] = useState([]);
   const cardSize = 100;
@@ -32,7 +32,8 @@ const GameGrid = ({ images, resetGame }) => {
 
     if (revealed.length === 0) {
       if (images.length - 1 === paired.length) {
-        resetGame();
+        // rc
+        concludeGame();
         return;
       }
 
@@ -43,7 +44,7 @@ const GameGrid = ({ images, resetGame }) => {
       const isMatch = revealed[0].id === card.id;
       if (isMatch) {
         if (images.length - 2 === paired.length) {
-          resetGame();
+          concludeGame();
           return;
         }
 
