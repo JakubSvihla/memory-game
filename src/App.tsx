@@ -62,7 +62,6 @@ const App = () => {
     setCompleted(false);
     setImages(imagesDoubled);
     setPlaying(true);
-    // setQuery('');
   };
 
   const resetGame = () => {
@@ -93,7 +92,6 @@ const App = () => {
     }
     card.flipState = 'revealed';
 
-    // if rogue card
     if (revealed.length === 0) {
       if (images.length - 1 === paired.length) {
         resetGame();
@@ -106,7 +104,6 @@ const App = () => {
     if (revealed.length === 1) {
       const isMatch = revealed[0].id === card.id;
       if (isMatch) {
-        // if standard game - no rogue card
         if (images.length - 2 === paired.length) {
           resetGame();
           return;
