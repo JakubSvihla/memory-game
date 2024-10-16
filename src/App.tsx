@@ -3,7 +3,12 @@ import { Image } from '@nextui-org/react';
 import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import { fetchImages } from './api/unsplash';
-import { assignCustomProperty, shuffle, calculateGridClasses } from './utils';
+import {
+  assignCustomProperty,
+  shuffle,
+  calculateGridClasses,
+  doubleImages,
+} from './utils';
 import mockData from './api/mock-data.json';
 import { delayMs } from './config.js';
 import Timer from './components/Timer.tsx';
@@ -14,6 +19,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [revealed, setRevealed] = useState([]);
   const [completed, setCompleted] = useState(false);
+  const [paired, setPaired] = useState([]);
   const [playing, setPlaying] = useState(false);
   const [inputInvalid, setInputInvalid] = useState(false);
   const [difficultyLevel, setDifficultyLevel] = useState(2);
@@ -35,40 +41,21 @@ const App = () => {
     }
   }, [revealed]);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+  // rogue card
+  // fetching it - difficulty level + 1
+  // assign it uniqueKey
+  // put it in the array after doubling
+  // determining when to win
 
-    if (query === '') {
-      setInputInvalid(true);
-    } else {
-      setInputInvalid(false);
-    }
+  const setUpGame = (images) => {
+    assignCustomProperty(images, 'flipState', 'hidden');
 
-    const newImages = await fetchImages(query, difficultyLevel, setLoading);
-    // const newImages = mockData;
-    assignCustomProperty(newImages);
+    const rogueCard = images.pop(); // make sure it's not the same as the bg image
+    rogueCard.uniqueKey = `${rogueCard.id}-1`;
 
-    // const rogueCard = newImages.pop(); // make sure it's not the same as the bg image
-    // rogueCard.uniqueKey = `${rogueCard.id}-1`;
-    // debugger;
-    // maybe instead of having haveRogueCard, from certain number of images we can just chuck one more in
-    // maybe rogueCard from the beginning
-    // with rogueCard, how do we conclude the game?
+    const imagesDoubled = doubleImages(images);
 
-    const imagesDoubled = [
-      ...newImages.map((image) => ({
-        ...image,
-        instance: 1,
-        uniqueKey: `${image.id}-1`,
-      })),
-      ...newImages.map((image) => ({
-        ...image,
-        instance: 2,
-        uniqueKey: `${image.id}-2`,
-      })),
-    ];
-
-    // imagesDoubled.push(rogueCard);
+    imagesDoubled.push(rogueCard);
 
     shuffle(imagesDoubled);
 
@@ -78,35 +65,55 @@ const App = () => {
     // setQuery('');
   };
 
-  let timer;
+  const resetGame = () => {
+    setCompleted(true);
+    setDifficultyLevel((prev) => prev + 1);
+    setPlaying(false);
+    setPaired([]);
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (query === '') {
+      setInputInvalid(true);
+    } else {
+      setInputInvalid(false);
+    }
+
+    const newImages = await fetchImages(query, difficultyLevel + 1, setLoading);
+    // const newImages = mockData;
+
+    setUpGame(newImages);
+  };
+
   const handleCardClick = (card) => {
-    console.log(timer);
-    clearTimeout(timer);
     if (card.flipState === 'revealed') {
       return;
     }
+    card.flipState = 'revealed';
 
+    // if rogue card
     if (revealed.length === 0) {
-      card.flipState = 'revealed';
+      if (images.length - 1 === paired.length) {
+        resetGame();
+        return;
+      }
+
       setRevealed([card]);
     }
 
     if (revealed.length === 1) {
-      card.flipState = 'revealed';
-
       const isMatch = revealed[0].id === card.id;
       if (isMatch) {
-        setRevealed([]);
-        const allRevealed = images.every(
-          (image) => image.flipState === 'revealed'
-        );
-
-        if (allRevealed) {
-          setCompleted(true);
-          setDifficultyLevel((prev) => prev + 1);
-          setPlaying(false);
+        // if standard game - no rogue card
+        if (images.length - 2 === paired.length) {
+          resetGame();
+          return;
         }
-        return;
+
+        setPaired([...paired, revealed[0], card]);
+        setRevealed([]);
       } else {
         setRevealed([...revealed, card]);
       }
@@ -115,7 +122,6 @@ const App = () => {
     if (revealed.length === 2) {
       revealed[0].flipState = 'hidden';
       revealed[1].flipState = 'hidden';
-      card.flipState = 'revealed';
       setRevealed([card]);
     }
   };
@@ -135,7 +141,7 @@ const App = () => {
         `}
       ></div>
       <h1 className="text-2xl">Play Memory</h1>
-      {completed ? <h2>Great Success!!</h2> : ''}
+
       <form
         onSubmit={handleSearch}
         className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 mb-4"
@@ -158,9 +164,10 @@ const App = () => {
             Get Images & Start
           </Button>
         )}
-        <Button color="danger">Stop Game</Button>
       </form>
-
+      <div className="flex justify-center mb-2">
+        {completed ? <h2>Great Success!!</h2> : <h2>Focus!!</h2>}
+      </div>
       {loading && images.length ? (
         <p>Loading...</p>
       ) : (

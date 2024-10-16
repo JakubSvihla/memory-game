@@ -15,9 +15,9 @@ export function shuffle(array) {
   }
 }
 
-export function assignCustomProperty(items) {
+export function assignCustomProperty(items, property, value) {
   items.forEach((item) => {
-    item['flipState'] = 'hidden';
+    item[property] = value;
   });
 }
 
@@ -31,3 +31,18 @@ export function calculateGridClasses(imageCount: number) {
 
   return columns;
 }
+
+export const doubleImages = (images) => {
+  return [
+    ...images.map((image) => ({
+      ...image,
+      instance: 1,
+      uniqueKey: `${image.id}-1`,
+    })),
+    ...images.map((image) => ({
+      ...image,
+      instance: 2,
+      uniqueKey: `${image.id}-2`,
+    })),
+  ];
+};
