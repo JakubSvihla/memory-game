@@ -2,12 +2,7 @@ import { useState } from 'react';
 import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import { fetchImages } from './api/unsplash';
-import {
-  assignCustomProperty,
-  shuffle,
-  doubleImages,
-  prepareImages,
-} from './utils';
+import { prepareImages, getDifficultyLevel } from './utils';
 // import mockData from './api/mock-data.json';
 import GameGrid from './components/GameGrid.tsx';
 
@@ -21,12 +16,6 @@ const App = () => {
   const [difficultyLevel, setDifficultyLevel] = useState(2);
 
   // rogue card:
-  // fetching it - difficulty level + 1
-
-  // extract it
-  // assign it uniqueKey
-  // put it in the array after doubling
-
   // determining when to win
 
   const handleSearch = async (e) => {
@@ -38,7 +27,11 @@ const App = () => {
       setInputInvalid(false);
     }
 
-    const newImages = await fetchImages(query, difficultyLevel + 1, setLoading);
+    const newImages = await fetchImages(
+      query,
+      getDifficultyLevel(difficultyLevel),
+      setLoading
+    );
     // const newImages = mockData;
 
     setUpGame(newImages);

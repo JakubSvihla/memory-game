@@ -66,3 +66,7 @@ export const prepareImages = (images) => {
     return shuffle(doubleImages(images));
   }
 };
+
+export const getDifficultyLevel = (level: number) => {
+  return config.rogueCard ? level + 1 : level;
+};
