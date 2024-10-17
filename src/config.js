@@ -1,1 +1,4 @@
-export const delayMs = 5000;
+export default config = {
+  delayMs: 5000,
+  rogueCard: true,
+};
