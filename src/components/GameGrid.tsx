@@ -24,6 +24,13 @@ const GameGrid = ({ images, concludeGame }) => {
     }
   }, [revealed]);
 
+  const checkGameConcluded = () => {
+    if (config.rogueCard) {
+      return images.length - 2 - paired.length === 1;
+    }
+    return images.length - 2 === paired.length;
+  };
+
   const handleCardClick = (card) => {
     if (card.flipState === 'revealed') {
       return;
@@ -31,19 +38,13 @@ const GameGrid = ({ images, concludeGame }) => {
     card.flipState = 'revealed';
 
     if (revealed.length === 0) {
-      if (images.length - 1 === paired.length) {
-        // rc - 5
-        concludeGame();
-        return;
-      }
-
       setRevealed([card]);
     }
 
     if (revealed.length === 1) {
       const isMatch = revealed[0].id === card.id;
       if (isMatch) {
-        if (images.length - 2 === paired.length) {
+        if (checkGameConcluded()) {
           concludeGame();
           return;
         }

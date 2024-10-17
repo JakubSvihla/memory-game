@@ -15,9 +15,6 @@ const App = () => {
   const [inputInvalid, setInputInvalid] = useState(false);
   const [difficultyLevel, setDifficultyLevel] = useState(2);
 
-  // rogue card:
-  // determining when to win
-
   const handleSearch = async (e) => {
     e.preventDefault();
 
