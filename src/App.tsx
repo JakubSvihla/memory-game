@@ -83,7 +83,7 @@ const App = () => {
           </Button>
         ) : (
           <Button type="submit" color="primary">
-            Get Images & Start
+            Get Images & Start {difficultyLevel > 2 && 'Next Level'}
           </Button>
         )}
       </form>
@@ -93,7 +93,11 @@ const App = () => {
       {loading && images.length ? (
         <p>Loading...</p>
       ) : (
-        <GameGrid images={images} concludeGame={concludeGame} />
+        <GameGrid
+          images={images}
+          concludeGame={concludeGame}
+          completed={completed}
+        />
       )}
     </div>
   );

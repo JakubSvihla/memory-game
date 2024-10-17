@@ -3,7 +3,7 @@ import { calculateGridClasses } from '../utils';
 import config from '../config.js';
 import { useEffect, useState } from 'react';
 
-const GameGrid = ({ images, concludeGame }) => {
+const GameGrid = ({ images, concludeGame, completed }) => {
   const [revealed, setRevealed] = useState([]);
   const [paired, setPaired] = useState([]);
   const cardSize = 100;
@@ -32,7 +32,8 @@ const GameGrid = ({ images, concludeGame }) => {
   };
 
   const handleCardClick = (card) => {
-    if (card.flipState === 'revealed') {
+    if (card.flipState === 'revealed' || completed) {
+      // want to be able to turn the last rogue card
       return;
     }
     card.flipState = 'revealed';
