@@ -1,3 +1,5 @@
+import config from './config.js';
+
 export function shuffle(array) {
   let currentIndex = array.length;
 
@@ -13,6 +15,8 @@ export function shuffle(array) {
       array[currentIndex],
     ];
   }
+
+  return array;
 }
 
 export function assignCustomProperty(items, property, value) {
@@ -45,4 +49,20 @@ export const doubleImages = (images) => {
       uniqueKey: `${image.id}-2`,
     })),
   ];
+};
+
+export const prepareImages = (images) => {
+  assignCustomProperty(images, 'flipState', 'hidden');
+
+  if (config.rogueCard) {
+    const rogueCard = images.pop();
+    rogueCard.uniqueKey = `${rogueCard.id}-1`;
+
+    const imagesDoubled = doubleImages(images);
+    imagesDoubled.push(rogueCard);
+
+    return shuffle(imagesDoubled);
+  } else {
+    return shuffle(doubleImages(images));
+  }
 };

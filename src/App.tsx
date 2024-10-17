@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import { fetchImages } from './api/unsplash';
-import { assignCustomProperty, shuffle, doubleImages } from './utils';
+import {
+  assignCustomProperty,
+  shuffle,
+  doubleImages,
+  prepareImages,
+} from './utils';
 // import mockData from './api/mock-data.json';
 import GameGrid from './components/GameGrid.tsx';
 
@@ -33,26 +38,17 @@ const App = () => {
       setInputInvalid(false);
     }
 
-    const newImages = await fetchImages(query, difficultyLevel + 1, setLoading); // rc
+    const newImages = await fetchImages(query, difficultyLevel + 1, setLoading);
     // const newImages = mockData;
 
     setUpGame(newImages);
   };
 
   const setUpGame = (images) => {
-    assignCustomProperty(images, 'flipState', 'hidden');
-
-    const rogueCard = images.pop(); // rc // make sure it's not the same as the bg image
-    rogueCard.uniqueKey = `${rogueCard.id}-1`; // rc
-
-    const imagesDoubled = doubleImages(images);
-
-    imagesDoubled.push(rogueCard); // rc
-
-    shuffle(imagesDoubled);
+    const preparedImages = prepareImages(images);
 
     setCompleted(false);
-    setImages(imagesDoubled);
+    setImages(preparedImages);
     setPlaying(true);
   };
 

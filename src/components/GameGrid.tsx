@@ -1,6 +1,6 @@
 import { Image } from '@nextui-org/react';
 import { calculateGridClasses } from '../utils';
-import { delayMs } from '../config.js';
+import config from '../config.js';
 import { useEffect, useState } from 'react';
 
 const GameGrid = ({ images, concludeGame }) => {
@@ -16,7 +16,7 @@ const GameGrid = ({ images, concludeGame }) => {
         setRevealed([]);
       }
 
-      const timeoutId = setTimeout(onTimeout, delayMs);
+      const timeoutId = setTimeout(onTimeout, config.delayMs);
 
       return () => {
         clearTimeout(timeoutId);
@@ -32,7 +32,7 @@ const GameGrid = ({ images, concludeGame }) => {
 
     if (revealed.length === 0) {
       if (images.length - 1 === paired.length) {
-        // rc
+        // rc - 5
         concludeGame();
         return;
       }
