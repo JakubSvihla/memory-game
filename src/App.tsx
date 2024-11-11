@@ -23,7 +23,7 @@ const App = () => {
       getDifficultyLevel(difficultyLevel),
       setLoading
     );
-    // const newImages = mockData;
+    // const newImages = mockDatas;
 
     setUpGame(newImages);
     setInputInvalid(false);
