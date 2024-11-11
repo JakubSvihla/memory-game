@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
+import { Chip } from '@nextui-org/chip';
 import { fetchImages } from './api/unsplash';
 import { prepareImages, getDifficultyLevel } from './utils';
 // import mockData from './api/mock-data.json';
 import GameGrid from './components/GameGrid.tsx';
+import config from './config.js';
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -12,18 +14,10 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [inputInvalid, setInputInvalid] = useState(false);
+  const [inputInvalid, setInputInvalid] = useState(false); // do i need this?
   const [difficultyLevel, setDifficultyLevel] = useState(2);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-
-    if (query === '') {
-      setInputInvalid(true);
-    } else {
-      setInputInvalid(false);
-    }
-
+  const getImages = async (query: string) => {
     const newImages = await fetchImages(
       query,
       getDifficultyLevel(difficultyLevel),
@@ -32,6 +26,22 @@ const App = () => {
     // const newImages = mockData;
 
     setUpGame(newImages);
+    setInputInvalid(false);
+  };
+
+  const submitInput = async (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    if (query === '') {
+      setInputInvalid(true);
+      return;
+    }
+
+    getImages(query);
+    // is this in correct place?
+    // should not make request if input empty
   };
 
   const setUpGame = (images) => {
@@ -63,10 +73,9 @@ const App = () => {
         `}
       ></div>
       <h1 className="text-2xl">Play Memory</h1>
-
       <form
-        onSubmit={handleSearch}
-        className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 mb-4"
+        onSubmit={submitInput}
+        className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4"
       >
         <Input
           className="max-w-[400px] "
@@ -75,8 +84,9 @@ const App = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           isInvalid={inputInvalid}
-          errorMessage="Please enter something to search for"
+          errorMessage="Please enter something to search for or click on a suggestion below"
         />
+
         {playing ? (
           <Button isDisabled color="primary">
             Get Images & Start
@@ -87,6 +97,33 @@ const App = () => {
           </Button>
         )}
       </form>
+      {!playing &&
+        config(
+          <div>
+            <p>select suggestion:</p>
+            <Chip
+              className="cursor-pointer mr-1"
+              color="primary"
+              onClick={(e) => getImages(e.target.textContent)}
+            >
+              Cactus
+            </Chip>
+            <Chip
+              className="cursor-pointer mr-1"
+              color="primary"
+              onClick={(e) => getImages(e.target.textContent)}
+            >
+              Flowers
+            </Chip>
+            <Chip
+              className="cursor-pointer"
+              color="primary"
+              onClick={(e) => getImages(e.target.textContent)}
+            >
+              Nature
+            </Chip>
+          </div>
+        )}
       <div className="flex justify-center mb-2">
         {completed ? <h2>Great Success!!</h2> : <h2>Focus!!</h2>}
       </div>
