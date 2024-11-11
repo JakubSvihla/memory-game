@@ -23,7 +23,7 @@ const App = () => {
       getDifficultyLevel(difficultyLevel),
       setLoading
     );
-    // const newImages = mockDatas;
+    // const newImages = mockData;
 
     setUpGame(newImages);
     setInputInvalid(false);
@@ -97,33 +97,23 @@ const App = () => {
           </Button>
         )}
       </form>
-      {!playing &&
-        config(
-          <div>
-            <p>select suggestion:</p>
+
+      {!playing && (
+        <div>
+          <p>Select suggestion:</p>
+          {config.initialChips.map((chip: string) => (
             <Chip
+              key={chip}
               className="cursor-pointer mr-1"
               color="primary"
               onClick={(e) => getImages(e.target.textContent)}
             >
-              Cactus
+              {chip}
             </Chip>
-            <Chip
-              className="cursor-pointer mr-1"
-              color="primary"
-              onClick={(e) => getImages(e.target.textContent)}
-            >
-              Flowers
-            </Chip>
-            <Chip
-              className="cursor-pointer"
-              color="primary"
-              onClick={(e) => getImages(e.target.textContent)}
-            >
-              Nature
-            </Chip>
-          </div>
-        )}
+          ))}
+        </div>
+      )}
+
       <div className="flex justify-center mb-2">
         {completed ? <h2>Great Success!!</h2> : <h2>Focus!!</h2>}
       </div>
