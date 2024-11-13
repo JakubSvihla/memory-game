@@ -8,8 +8,14 @@ import { prepareImages, getDifficultyLevel } from './utils';
 import GameGrid from './components/GameGrid.tsx';
 import config from './config.json';
 
+export interface ImageType {
+  urls: {
+    full: string;
+  };
+}
+
 const App = () => {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<ImageType[]>([]);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -44,7 +50,7 @@ const App = () => {
     // should not make request if input empty
   };
 
-  const setUpGame = (images: any) => {
+  const setUpGame = (images: ImageType) => {
     const preparedImages = prepareImages(images);
 
     setCompleted(false);

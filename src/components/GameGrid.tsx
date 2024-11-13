@@ -2,9 +2,10 @@ import { Image } from '@nextui-org/react';
 import { calculateGridClasses } from '../utils';
 import config from '../config.json';
 import { useEffect, useState } from 'react';
+import { ImageType } from '../App';
 
 interface GameGridProps {
-  images: string[];
+  images: ImageType[];
   concludeGame: () => void;
   completed: boolean;
 }

@@ -1,7 +1,13 @@
 const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 const urlBase = 'https://api.unsplash.com/search/photos';
 
-export const fetchImages = (query: string, amount: number, setLoading) => {
+type SetLoading = (loading: boolean) => void;
+
+export const fetchImages = (
+  query: string,
+  amount: number,
+  setLoading: SetLoading
+) => {
   setLoading(true);
   return fetch(
     `${urlBase}?query=${query}&per_page=${amount}&client_id=${accessKey}`
