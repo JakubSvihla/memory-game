@@ -6,7 +6,7 @@ import { fetchImages } from './api/unsplash';
 import { prepareImages, getDifficultyLevel } from './utils';
 // import mockData from './api/mock-data.json';
 import GameGrid from './components/GameGrid.tsx';
-import config from './config.js';
+import config from './config.json';
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -29,7 +29,7 @@ const App = () => {
     setInputInvalid(false);
   };
 
-  const submitInput = async (e) => {
+  const submitInput = async (e: any) => {
     if (e) {
       e.preventDefault();
     }
@@ -44,7 +44,7 @@ const App = () => {
     // should not make request if input empty
   };
 
-  const setUpGame = (images) => {
+  const setUpGame = (images: any) => {
     const preparedImages = prepareImages(images);
 
     setCompleted(false);

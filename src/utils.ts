@@ -1,6 +1,6 @@
-import config from './config.js';
+import config from './config.json';
 
-export function shuffle(array) {
+export function shuffle(array: any) {
   let currentIndex = array.length;
 
   // While there remain elements to shuffle...
@@ -19,8 +19,12 @@ export function shuffle(array) {
   return array;
 }
 
-export function assignCustomProperty(items, property, value) {
-  items.forEach((item) => {
+export function assignCustomProperty(
+  items: any,
+  property: string,
+  value: string
+) {
+  items.forEach((item: any) => {
     item[property] = value;
   });
 }
@@ -36,14 +40,14 @@ export function calculateGridClasses(imageCount: number) {
   return columns;
 }
 
-export const doubleImages = (images) => {
+export const doubleImages = (images: any) => {
   return [
-    ...images.map((image) => ({
+    ...images.map((image: any) => ({
       ...image,
       instance: 1,
       uniqueKey: `${image.id}-1`,
     })),
-    ...images.map((image) => ({
+    ...images.map((image: any) => ({
       ...image,
       instance: 2,
       uniqueKey: `${image.id}-2`,
@@ -51,7 +55,7 @@ export const doubleImages = (images) => {
   ];
 };
 
-export const prepareImages = (images) => {
+export const prepareImages = (images: any) => {
   assignCustomProperty(images, 'flipState', 'hidden');
 
   if (config.rogueCard) {

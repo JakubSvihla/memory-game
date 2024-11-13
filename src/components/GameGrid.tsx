@@ -1,6 +1,6 @@
 import { Image } from '@nextui-org/react';
 import { calculateGridClasses } from '../utils';
-import config from '../config.js';
+import config from '../config.json';
 import { useEffect, useState } from 'react';
 
 const GameGrid = ({ images, concludeGame, completed }) => {
