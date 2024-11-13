@@ -94,7 +94,7 @@ const GameGrid: React.FC<GameGridProps> = ({
             {image.flipState === 'hidden' && (
               <Image
                 className="object-cover cursor-pointer"
-                src="../public/assets/gradient.jpg"
+                src="../../public/assets/gradient.jpg"
                 width={cardSize}
                 height={cardSize}
                 radius="sm"
