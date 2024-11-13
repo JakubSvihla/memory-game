@@ -3,9 +3,21 @@ import { calculateGridClasses } from '../utils';
 import config from '../config.json';
 import { useEffect, useState } from 'react';
 
-const GameGrid = ({ images, concludeGame, completed }) => {
-  const [revealed, setRevealed] = useState([]);
-  const [paired, setPaired] = useState([]);
+interface GameGridProps {
+  images: string[];
+  concludeGame: () => void;
+  completed: boolean;
+}
+
+const GameGrid: React.FC<GameGridProps> = ({
+  images,
+  concludeGame,
+  completed,
+}) => {
+  const [revealed, setRevealed] = useState<{ flipState: string; id: string }[]>(
+    []
+  );
+  const [paired, setPaired] = useState<{ flipState: string; id: string }[]>([]);
   const cardSize = 100;
 
   useEffect(() => {
@@ -31,7 +43,7 @@ const GameGrid = ({ images, concludeGame, completed }) => {
     return images.length - 2 === paired.length;
   };
 
-  const handleCardClick = (card) => {
+  const handleCardClick = (card: any) => {
     if (card.flipState === 'revealed' || completed) {
       // want to be able to turn the last rogue card
       return;
@@ -72,7 +84,7 @@ const GameGrid = ({ images, concludeGame, completed }) => {
           images.length
         )} gap-1`}
       >
-        {images.map((image) => (
+        {images.map((image: any) => (
           <div
             key={image.uniqueKey}
             className={`relative  w-[100px] h-[100px]`}

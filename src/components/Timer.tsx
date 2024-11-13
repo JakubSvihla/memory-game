@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 
-const Timer = ({ isRunning }) => {
+interface TimerProps {
+  isRunning: boolean;
+}
+
+const Timer: React.FC<TimerProps> = ({ isRunning }) => {
   const [time, setTime] = useState(0);
   // const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
-    let intervalId;
+    let intervalId: number;
     if (isRunning) {
       // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
       intervalId = setInterval(() => setTime(time + 1), 10);

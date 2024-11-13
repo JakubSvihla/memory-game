@@ -106,7 +106,7 @@ const App = () => {
               key={chip}
               className="cursor-pointer mr-1"
               color="primary"
-              onClick={(e) => getImages(e.target.textContent)}
+              onClick={(e: any) => getImages(e.target.textContent)}
             >
               {chip}
             </Chip>
