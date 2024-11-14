@@ -17,7 +17,7 @@ const ModalGameCompleted: React.FC<ModalGameCompletedProps> = ({
   close,
 }) => {
   return (
-    <Modal isOpen={isOpen}>
+    <Modal hideCloseButton isOpen={isOpen}>
       <ModalContent>
         <>
           <ModalHeader className="flex flex-col gap-1">
