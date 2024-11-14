@@ -88,7 +88,7 @@ const App = () => {
         `}
         ></div>
 
-        <h1 className="text-2xl">Play Memory Odd</h1>
+        <h1 className="text-2xl text-center">Play Memory Odd</h1>
 
         {!playing && (
           <form
@@ -105,7 +105,8 @@ const App = () => {
             />
 
             <Button type="submit" color="primary">
-              Get Images & Start {numOfCards > 2 && 'Next Level'}
+              Get Images & Start{' '}
+              {numOfCards > config.initialNumOfCards && 'Next Level'}
             </Button>
           </form>
         )}
