@@ -7,6 +7,7 @@ import { prepareImages, getDifficultyLevel } from './utils';
 // import mockData from './api/mock-data.json';
 import GameGrid from './components/GameGrid.tsx';
 import config from './config.json';
+import ModalGameCompleted from './components/ModalGameCompleted.tsx';
 
 export interface ImageType {
   urls: {
@@ -21,6 +22,7 @@ const App = () => {
   const [completed, setCompleted] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [difficultyLevel, setDifficultyLevel] = useState(1);
+  const [modalGameCompletedOpen, setModalGameCompletedOpen] = useState(false);
 
   const getImages = async (query: string) => {
     const newImages = await fetchImages(
@@ -58,84 +60,91 @@ const App = () => {
 
   const concludeGame = () => {
     setCompleted(true);
+    setModalGameCompletedOpen(true);
     setDifficultyLevel((prev) => prev + 1);
     setPlaying(false);
   };
 
+  const onClose = () => {
+    setModalGameCompletedOpen(false);
+  };
+
   return (
-    <div className="w-screen h-screen relative">
-      <div
-        style={{
-          backgroundImage: `url(${images[0]?.urls.full})`,
-        }}
-        className={`
+    <>
+      <ModalGameCompleted isOpen={modalGameCompletedOpen} onClose={onClose} />
+      <div className="w-screen h-screen relative">
+        <div
+          style={{
+            backgroundImage: `url(${images[0]?.urls.full})`,
+          }}
+          className={`
           absolute
           w-screen h-screen
           left-0 top-0
           bg-no-repeat bg-cover bg-center
           opacity-20
         `}
-      ></div>
+        ></div>
 
-      <h1 className="text-2xl">Play Memory</h1>
+        <h1 className="text-2xl">Play Memory</h1>
 
-      <form
-        onSubmit={submitInput}
-        className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4"
-      >
-        <Input
-          className="max-w-[300px] "
-          type="text"
-          placeholder="Search for images (e.g. mountains, cars)"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          errorMessage="Please enter something to search for or click on a suggestion below"
-        />
-
-        {playing ? (
-          <Button isDisabled color="primary">
-            Get Images & Start
-          </Button>
-        ) : (
-          <Button type="submit" color="primary">
-            Get Images & Start {difficultyLevel > 2 && 'Next Level'}
-          </Button>
-        )}
-      </form>
-
-      {!playing && (
-        <div>
-          <p>Select suggestion:</p>
-          {config.initialChips.map((chip: string) => (
-            <Chip
-              key={chip}
-              className="cursor-pointer mr-1"
-              color="primary"
-              onClick={(e: any) => getImages(e.target.textContent)}
-            >
-              {chip}
-            </Chip>
-          ))}
-        </div>
-      )}
-
-      <div className="flex justify-center mb-2">
-        <h2>Level: {difficultyLevel}</h2>
-      </div>
-
-      <div>
-        {loading && images.length ? (
-          <p>Loading...</p>
-        ) : (
-          <GameGrid
-            images={images}
-            concludeGame={concludeGame}
-            completed={completed}
+        <form
+          onSubmit={submitInput}
+          className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4"
+        >
+          <Input
+            className="max-w-[300px] "
+            type="text"
+            placeholder="Search for images (e.g. mountains, cars)"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            errorMessage="Please enter something to search for or click on a suggestion below"
           />
+
+          {playing ? (
+            <Button isDisabled color="primary">
+              Get Images & Start
+            </Button>
+          ) : (
+            <Button type="submit" color="primary">
+              Get Images & Start {difficultyLevel > 2 && 'Next Level'}
+            </Button>
+          )}
+        </form>
+
+        {!playing && (
+          <div>
+            <p>Select suggestion:</p>
+            {config.initialChips.map((chip: string) => (
+              <Chip
+                key={chip}
+                className="cursor-pointer mr-1"
+                color="primary"
+                onClick={(e: any) => getImages(e.target.textContent)}
+              >
+                {chip}
+              </Chip>
+            ))}
+          </div>
         )}
-        {completed && <h2>Great Success!!</h2>}
+
+        <div className="flex justify-center mb-2">
+          <h2>Level: {difficultyLevel}</h2>
+        </div>
+
+        <div>
+          {loading && images.length ? (
+            <p>Loading...</p>
+          ) : (
+            <GameGrid
+              images={images}
+              concludeGame={concludeGame}
+              completed={completed}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
