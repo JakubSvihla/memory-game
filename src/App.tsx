@@ -20,7 +20,6 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [inputInvalid, setInputInvalid] = useState(false); // do i need this?
   const [difficultyLevel, setDifficultyLevel] = useState(2);
 
   const getImages = async (query: string) => {
@@ -32,7 +31,6 @@ const App = () => {
     // const newImages = mockData;
 
     setUpGame(newImages);
-    setInputInvalid(false);
   };
 
   const submitInput = async (e: any) => {
@@ -41,7 +39,7 @@ const App = () => {
     }
 
     if (query === '') {
-      setInputInvalid(true);
+      getImages(config.initialChips[0]);
       return;
     }
 
@@ -89,7 +87,6 @@ const App = () => {
           placeholder="Search for images (e.g. mountains, cars)"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          isInvalid={inputInvalid}
           errorMessage="Please enter something to search for or click on a suggestion below"
         />
 
