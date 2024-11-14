@@ -7,7 +7,15 @@ import {
   ModalFooter,
 } from '@nextui-org/react';
 
-export default function ModalGameCompleted({ isOpen, onClose }) {
+interface ModalGameCompletedProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const ModalGameCompleted: React.FC<ModalGameCompletedProps> = ({
+  isOpen,
+  onClose,
+}) => {
   return (
     <Modal isOpen={isOpen}>
       <ModalContent>
@@ -27,4 +35,6 @@ export default function ModalGameCompleted({ isOpen, onClose }) {
       </ModalContent>
     </Modal>
   );
-}
+};
+
+export default ModalGameCompleted;
