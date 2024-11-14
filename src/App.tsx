@@ -21,13 +21,13 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [difficultyLevel, setDifficultyLevel] = useState(1);
+  const [numOfCards, setNumOfCards] = useState(3);
   const [modalGameCompletedOpen, setModalGameCompletedOpen] = useState(false);
 
   const getImages = async (query: string) => {
     const newImages = await fetchImages(
       query,
-      getDifficultyLevel(difficultyLevel),
+      getDifficultyLevel(numOfCards),
       setLoading
     );
     // const newImages = mockData;
@@ -61,7 +61,7 @@ const App = () => {
   const concludeGame = () => {
     setCompleted(true);
     setModalGameCompletedOpen(true);
-    setDifficultyLevel((prev) => prev + 1);
+    setNumOfCards((prev) => prev + 1);
     setPlaying(false);
   };
 
@@ -107,7 +107,7 @@ const App = () => {
             </Button>
           ) : (
             <Button type="submit" color="primary">
-              Get Images & Start {difficultyLevel > 2 && 'Next Level'}
+              Get Images & Start {numOfCards > 2 && 'Next Level'}
             </Button>
           )}
         </form>
@@ -129,7 +129,7 @@ const App = () => {
         )}
 
         <div className="flex justify-center mb-2">
-          <h2>Level: {difficultyLevel}</h2>
+          <h2>Level: {numOfCards}</h2>
         </div>
 
         <div>
