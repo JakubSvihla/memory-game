@@ -24,6 +24,8 @@ const App = () => {
   const [numOfCards, setNumOfCards] = useState(3);
   const [modalGameCompletedOpen, setModalGameCompletedOpen] = useState(false);
 
+  const level = numOfCards - 2;
+
   const getImages = async (query: string) => {
     const newImages = await fetchImages(
       query,
@@ -129,7 +131,7 @@ const App = () => {
         )}
 
         <div className="flex justify-center mb-2">
-          <h2>Level: {numOfCards}</h2>
+          <h2>Level: {level}</h2>
         </div>
 
         <div>
