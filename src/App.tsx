@@ -3,7 +3,7 @@ import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import { Chip } from '@nextui-org/chip';
 import { fetchImages } from './api/unsplash';
-import { prepareImages, getDifficultyLevel } from './utils';
+import { prepareImages, adjustNumOfCards } from './utils';
 // import mockData from './api/mock-data.json';
 import GameGrid from './components/GameGrid.tsx';
 import config from './config.json';
@@ -29,7 +29,7 @@ const App = () => {
   const getImages = async (query: string) => {
     const newImages = await fetchImages(
       query,
-      getDifficultyLevel(numOfCards),
+      adjustNumOfCards(numOfCards),
       setLoading
     );
     // const newImages = mockData;
