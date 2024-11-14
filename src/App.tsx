@@ -90,29 +90,25 @@ const App = () => {
 
         <h1 className="text-2xl">Play Memory Odd</h1>
 
-        <form
-          onSubmit={submitInput}
-          className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4"
-        >
-          <Input
-            className="max-w-[300px] "
-            type="text"
-            placeholder="Search for images (e.g. mountains, cars)"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            errorMessage="Please enter something to search for or click on a suggestion below"
-          />
+        {!playing && (
+          <form
+            onSubmit={submitInput}
+            className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4"
+          >
+            <Input
+              className="max-w-[300px] "
+              type="text"
+              placeholder="Search for images (e.g. mountains, cars)"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              errorMessage="Please enter something to search for or click on a suggestion below"
+            />
 
-          {playing ? (
-            <Button isDisabled color="primary">
-              Get Images & Start
-            </Button>
-          ) : (
             <Button type="submit" color="primary">
               Get Images & Start {numOfCards > 2 && 'Next Level'}
             </Button>
-          )}
-        </form>
+          </form>
+        )}
 
         {!playing && (
           <div>
