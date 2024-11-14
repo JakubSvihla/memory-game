@@ -73,7 +73,7 @@ const App = () => {
 
   return (
     <>
-      <ModalGameCompleted isOpen={!modalGameCompletedOpen} close={close} />
+      <ModalGameCompleted isOpen={modalGameCompletedOpen} close={close} />
       <div className="w-screen h-screen relative">
         <div
           style={{
