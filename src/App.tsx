@@ -86,7 +86,7 @@ const App = () => {
         `}
         ></div>
 
-        <h1 className="text-2xl">Play Memory</h1>
+        <h1 className="text-2xl">Play Memory Odd</h1>
 
         <form
           onSubmit={submitInput}
@@ -114,7 +114,7 @@ const App = () => {
 
         {!playing && (
           <div>
-            <p>Select suggestion:</p>
+            <p>Select theme:</p>
             {config.initialChips.map((chip: string) => (
               <Chip
                 key={chip}
