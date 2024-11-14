@@ -21,7 +21,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [numOfCards, setNumOfCards] = useState(3);
+  const [numOfCards, setNumOfCards] = useState(config.initialNumOfCards);
   const [modalGameCompletedOpen, setModalGameCompletedOpen] = useState(false);
 
   const level = numOfCards - 2;
