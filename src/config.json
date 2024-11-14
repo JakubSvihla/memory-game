@@ -2,5 +2,6 @@
   "delayMs": 5000,
   "rogueCard": true,
   "initialChips": ["cactus", "potatoe", "banana", "animals", "flowers"],
-  "initialNumOfCards": 3
+  "initialNumOfCards": 3,
+  "displayInputField": false
 }

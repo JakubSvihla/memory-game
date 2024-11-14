@@ -90,7 +90,7 @@ const App = () => {
 
         <h1 className="text-2xl text-center">Play Memory Odd</h1>
 
-        {!playing && (
+        {config.displayInputField && !playing && (
           <form
             onSubmit={submitInput}
             className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4"
