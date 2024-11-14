@@ -67,13 +67,13 @@ const App = () => {
     setPlaying(false);
   };
 
-  const onClose = () => {
+  const close = () => {
     setModalGameCompletedOpen(false);
   };
 
   return (
     <>
-      <ModalGameCompleted isOpen={modalGameCompletedOpen} onClose={onClose} />
+      <ModalGameCompleted isOpen={!modalGameCompletedOpen} close={close} />
       <div className="w-screen h-screen relative">
         <div
           style={{
@@ -88,7 +88,7 @@ const App = () => {
         `}
         ></div>
 
-        <h1 className="text-2xl text-center">Play Memory Odd</h1>
+        <h1 className="text-2xl text-center mb-4">Play Memory Odd</h1>
 
         {config.displayInputField && !playing && (
           <form
@@ -112,18 +112,20 @@ const App = () => {
         )}
 
         {!playing && (
-          <div>
-            <p>Select theme:</p>
-            {config.initialChips.map((chip: string) => (
-              <Chip
-                key={chip}
-                className="cursor-pointer mr-1"
-                color="primary"
-                onClick={(e: any) => getImages(e.target.textContent)}
-              >
-                {chip}
-              </Chip>
-            ))}
+          <div className="mb-4">
+            <p className="text-center">Select theme:</p>
+            <div className="flex justify-center">
+              {config.initialChips.map((chip: string) => (
+                <Chip
+                  key={chip}
+                  className="cursor-pointer mr-1"
+                  color="primary"
+                  onClick={(e: any) => getImages(e.target.textContent)}
+                >
+                  {chip}
+                </Chip>
+              ))}
+            </div>
           </div>
         )}
 

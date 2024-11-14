@@ -9,12 +9,12 @@ import {
 
 interface ModalGameCompletedProps {
   isOpen: boolean;
-  onClose: () => void;
+  close: () => void;
 }
 
 const ModalGameCompleted: React.FC<ModalGameCompletedProps> = ({
   isOpen,
-  onClose,
+  close,
 }) => {
   return (
     <Modal isOpen={isOpen}>
@@ -27,7 +27,7 @@ const ModalGameCompleted: React.FC<ModalGameCompletedProps> = ({
             <p>Close this and start the next level.</p>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" variant="light" onPress={onClose}>
+            <Button color="danger" variant="light" onPress={close}>
               Close
             </Button>
           </ModalFooter>
