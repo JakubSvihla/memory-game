@@ -3,7 +3,7 @@ import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import { Chip } from '@nextui-org/chip';
 import { fetchImages } from './api/unsplash';
-import { prepareImages, adjustNumOfCards } from './utils';
+import { prepareImages, adjustNumOfCards, getDifficultyLevel } from './utils';
 // import mockData from './api/mock-data.json';
 import GameGrid from './components/GameGrid.tsx';
 import config from './config.json';
@@ -24,7 +24,7 @@ const App = () => {
   const [numOfCards, setNumOfCards] = useState(config.initialNumOfCards);
   const [modalGameCompletedOpen, setModalGameCompletedOpen] = useState(false);
 
-  const level = numOfCards - 2;
+  const level = getDifficultyLevel(numOfCards);
 
   const getImages = async (query: string) => {
     const newImages = await fetchImages(
