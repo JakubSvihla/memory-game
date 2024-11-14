@@ -20,7 +20,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [difficultyLevel, setDifficultyLevel] = useState(2);
+  const [difficultyLevel, setDifficultyLevel] = useState(1);
 
   const getImages = async (query: string) => {
     const newImages = await fetchImages(
@@ -76,13 +76,15 @@ const App = () => {
           opacity-20
         `}
       ></div>
+
       <h1 className="text-2xl">Play Memory</h1>
+
       <form
         onSubmit={submitInput}
         className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4"
       >
         <Input
-          className="max-w-[400px] "
+          className="max-w-[300px] "
           type="text"
           placeholder="Search for images (e.g. mountains, cars)"
           value={query}
@@ -118,17 +120,21 @@ const App = () => {
       )}
 
       <div className="flex justify-center mb-2">
-        {completed ? <h2>Great Success!!</h2> : <h2>Focus!!</h2>}
+        <h2>Level: {difficultyLevel}</h2>
       </div>
-      {loading && images.length ? (
-        <p>Loading...</p>
-      ) : (
-        <GameGrid
-          images={images}
-          concludeGame={concludeGame}
-          completed={completed}
-        />
-      )}
+
+      <div>
+        {loading && images.length ? (
+          <p>Loading...</p>
+        ) : (
+          <GameGrid
+            images={images}
+            concludeGame={concludeGame}
+            completed={completed}
+          />
+        )}
+        {completed && <h2>Great Success!!</h2>}
+      </div>
     </div>
   );
 };

@@ -72,5 +72,5 @@ export const prepareImages = (images: any) => {
 };
 
 export const getDifficultyLevel = (level: number) => {
-  return config.rogueCard ? level + 1 : level;
+  return config.rogueCard ? level + 2 : level + 1;
 };
