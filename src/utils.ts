@@ -71,7 +71,7 @@ export const prepareImages = (images: any) => {
   }
 };
 
-export const getDifficultyLevel = (level: number) => {
+export const adjustNumOfCards = (level: number) => {
   return config.rogueCard ? level + 2 : level + 1;
   // first one will be used for bg
   // + 1 means we will get odd number of which one is for bg, so will have even number for game
