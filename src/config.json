@@ -1,7 +1,14 @@
 {
   "delayMs": 5000,
   "rogueCard": true,
-  "initialChips": ["cactus", "potatoe", "banana", "animals", "flowers"],
+  "initialChips": [
+    "cactus",
+    "fruits",
+    "vegetables",
+    "animals",
+    "flowers",
+    "houses"
+  ],
   "initialNumOfCards": 3,
   "displayInputField": false
 }
